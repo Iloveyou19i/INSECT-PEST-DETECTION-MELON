@@ -88,13 +88,13 @@ model Authenticator {
 }
 
 model Output {
-  id          String      @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String
-  image       String
-  time        Float
-  predictions Detection[]
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String
+  image      String
+  time       Float
+  detections Detection[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 }
 
 model Detection {

@@ -1,7 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,36 +15,32 @@ import Image from "next/image";
 import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
-
-const formSchema = z.object({
-  email: z.string().min(1, {
-    message: "Email field is required.",
-  }),
-  password: z.string().min(1, {
-    message: "Password field is required.",
-  }),
-});
+import { loginSchema } from "@/lib/auth.config";
+import toast from "react-hot-toast";
+import { login } from "@/lib/actions/auth.actions";
 
 const SignInForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  function onSubmit(values) {
+  const onSubmit = async (values) => {
     try {
       setIsSubmitting(true);
-      console.log(values);
+
+      await login(values);
     } catch (error) {
       console.error(error.message);
+      toast.error("Error logging in");
     } finally {
       setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <div className="w-[90%] md:w-[70%] flex flex-col items-center gap-8">
@@ -68,6 +63,7 @@ const SignInForm = () => {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
+                      type="email"
                       placeholder="Email"
                       {...field}
                       disabled={isSubmitting}
@@ -85,6 +81,7 @@ const SignInForm = () => {
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
+                      type="password"
                       placeholder="Password"
                       {...field}
                       disabled={isSubmitting}

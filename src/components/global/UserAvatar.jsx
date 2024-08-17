@@ -9,16 +9,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 const UserAvatar = ({ image }) => {
-  const logout = async () => {
-    try {
-      console.log("Logout");
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -33,7 +26,7 @@ const UserAvatar = ({ image }) => {
         <DropdownMenuItem asChild>
           <Link href={`/profile`}>Profile</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
+        <DropdownMenuItem onClick={signOut}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

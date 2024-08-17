@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import "@/app/globals.css";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,6 +16,7 @@ export default function RootLayout({ children }) {
         <main className="h-screen w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_600px] gap-4">
           {children}
         </main>
+        <Toaster />
       </body>
     </html>
   );

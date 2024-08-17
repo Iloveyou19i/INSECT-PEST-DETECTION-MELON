@@ -18,6 +18,9 @@ import { LoaderCircle, User } from "lucide-react";
 import Link from "next/link";
 import { useUploadThing } from "@/lib/uploadthing";
 import { isBase64 } from "@/lib/utils";
+import { register } from "@/lib/actions/auth.actions";
+import toast from "react-hot-toast";
+import { redirect, useRouter } from "next/navigation";
 
 const formSchema = z.object({
   profileImg: z.string().min(1, {
@@ -26,11 +29,14 @@ const formSchema = z.object({
   name: z.string().min(1, {
     message: "Last Name field is required.",
   }),
-  email: z.string().min(1, {
-    message: "Email field is required.",
-  }),
-  password: z.string().min(1, {
-    message: "Password field is required.",
+  email: z
+    .string()
+    .min(1, {
+      message: "Email field is required.",
+    })
+    .email({ message: "Invalid email." }),
+  password: z.string().min(8, {
+    message: "Password must be more than 8 characters.",
   }),
 });
 
@@ -47,6 +53,7 @@ const SignUpForm = () => {
     },
   });
   const { startUpload, isUploading } = useUploadThing("profileImg");
+  const router = useRouter();
 
   const handleImageUpload = (e, fieldChange) => {
     e.preventDefault();
@@ -78,15 +85,18 @@ const SignUpForm = () => {
 
         const imageRes = await startUpload(image);
 
-        if (!imageRes)
-          throw new Error("There was an error uploading the image");
+        if (!imageRes) throw new Error("Error uploading image");
 
-        values.profileImg = imageUpload[0].url;
+        values.profileImg = imageRes[0].url;
       }
 
-      // save to db
+      await register(values);
+
+      toast.success("Account created successfully");
+      router.push("/sign-in");
     } catch (error) {
       console.error(error.message);
+      toast.error("Error creating account");
     } finally {
       setIsSubmitting(false);
     }
@@ -197,7 +207,7 @@ const SignUpForm = () => {
               {isSubmitting ? (
                 <LoaderCircle className="h-5 w-5 animate-spin" />
               ) : (
-                "Create"
+                "Create account"
               )}
             </Button>
           </form>

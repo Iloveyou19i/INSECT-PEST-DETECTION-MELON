@@ -1,5 +1,6 @@
 import React from "react";
 import UserAvatar from "./UserAvatar";
+import { auth } from "@/lib/auth";
 
 const Navbar = () => {
   return (
