@@ -35,7 +35,11 @@ export default {
             user.password
           );
 
-          if (isPasswordMatched) return user;
+          if (isPasswordMatched)
+            return {
+              ...user,
+              image: user.profileImg,
+            };
         }
 
         return null;
