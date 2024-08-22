@@ -1,5 +1,4 @@
 "use server";
-import { AuthError } from "next-auth";
 import { signIn } from "../auth";
 import prisma from "../prisma";
 import bcrypt from "bcryptjs";

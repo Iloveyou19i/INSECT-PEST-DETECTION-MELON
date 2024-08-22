@@ -39,6 +39,7 @@ export default {
             return {
               ...user,
               image: user.profileImg,
+              role: user.role,
             };
         }
 
