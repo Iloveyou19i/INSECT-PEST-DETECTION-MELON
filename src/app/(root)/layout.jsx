@@ -14,11 +14,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} flex flex-col pt-[8vh] bg-slate-100`}
-      >
+      <body className={`${inter.className} flex flex-col bg-slate-100`}>
         <Navbar />
-        <div className="md:pl-[250px]">
+        <div className="pt-[8vh] md:pl-[250px]">
           <Sidebar />
           <main className="p-4">{children}</main>
         </div>

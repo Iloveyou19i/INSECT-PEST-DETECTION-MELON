@@ -88,6 +88,10 @@
   .sub-text {
     @apply text-sm md:text-base text-slate-500;
   }
+
+  .title {
+    @apply text-primary font-bold;
+  }
 }
 
 .avatar-container {

@@ -1,7 +1,12 @@
-import React from "react";
+import DetectionForm from "@/components/root/detection/DetectionForm";
 
 const page = () => {
-  return <div>Detection</div>;
+  return (
+    <section>
+      <h2 className="h2 pb-4">Pest Detection</h2>
+      <DetectionForm />
+    </section>
+  );
 };
 
 export default page;

@@ -18,8 +18,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (session) {
         session.user.id = token.sub;
         session.user.role = token.role;
-        console.log({ session });
       }
+
+      return session;
     },
   },
   adapter: PrismaAdapter(prisma),
