@@ -2,9 +2,9 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { UploadDropzone } from "@/lib/uploadthing";
-import { ImagePlus, Upload, X } from "lucide-react";
-import Image from "next/image";
+import { Upload, X } from "lucide-react";
 import { useState } from "react";
+import ImageViewer from "./ImageViewer";
 
 const UploadImage = ({ imageUrl, setImageUrl }) => {
   const [isEditting, setIsEditting] = useState(false);
@@ -59,21 +59,9 @@ const UploadImage = ({ imageUrl, setImageUrl }) => {
           </div>
         ) : (
           <div className="h-[450px] w-full flex flex-col items-center justify-center bg-slate-200 rounded-md relative">
-            {imageUrl ? (
-              <Image
-                src={imageUrl}
-                alt="Pest Image"
-                fill
-                className="object-contain"
-              />
-            ) : (
-              <>
-                <ImagePlus className="text-slate-500" />
-                <span className="text-xs text-slate-500">
-                  No image uploaded.
-                </span>
-              </>
-            )}
+            <ImageViewer image={imageUrl} isLoading={isUploading}>
+              No image uploaded.
+            </ImageViewer>
           </div>
         )}
       </div>

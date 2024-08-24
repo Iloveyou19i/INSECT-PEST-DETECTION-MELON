@@ -5,7 +5,7 @@ const { auth } = NextAuth(authConfig);
 
 const authRoutes = ["/sign-in", "/sign-up"];
 
-const userRoutes = ["/"];
+const userRoutes = ["/", "/images", "/detection"];
 
 const adminRoutes = ["/admin"];
 
