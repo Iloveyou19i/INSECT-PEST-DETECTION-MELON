@@ -10,7 +10,7 @@ const Navbar = async () => {
   return (
     <section className="h-[8vh] bg-white fixed top-0 left-0 right-0 flex justify-center border-b shadow-sm z-50">
       <div className="w-full h-full flex justify-between items-center px-2 md:px-4">
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-2 items-center">
           <div className="inline-block md:hidden">
             <MobileSidebar />
           </div>

@@ -9,3 +9,8 @@ export const isBase64 = (file) => {
   const base64Regex = /^data:image\/(png|jpe?g|gif|webp);base64,/;
   return base64Regex.test(file);
 };
+
+export const toMs = (time) => {
+  const ms = (time * 100).toFixed(2);
+  return `${ms} ms`;
+};

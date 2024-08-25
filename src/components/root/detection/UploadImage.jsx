@@ -41,7 +41,7 @@ const UploadImage = ({ imageUrl, setImageUrl }) => {
           perspiciatis?
         </p>
         {isEditting ? (
-          <div className="h-[450px] w-full flex justify-center items-center">
+          <div className="aspect-video w-full flex justify-center items-center">
             <UploadDropzone
               className="w-full h-full bg-slate-100 ut-label:text-primary ut-allowed-content:ut-uploading:text-primary ut-button:bg-primary ut-button:ut-readying:bg-primary/50 ut-button:ut-uploading:bg-primary/50 ut-button:ut-readying:bg-primary-50"
               endpoint="pestImage"
@@ -58,7 +58,7 @@ const UploadImage = ({ imageUrl, setImageUrl }) => {
             />
           </div>
         ) : (
-          <div className="h-[450px] w-full flex flex-col items-center justify-center bg-slate-200 rounded-md relative">
+          <div className="aspect-video w-full flex flex-col items-center justify-center bg-slate-200 rounded-md overflow-hidden relative">
             <ImageViewer image={imageUrl} isLoading={isUploading}>
               No image uploaded.
             </ImageViewer>

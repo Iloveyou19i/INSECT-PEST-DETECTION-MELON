@@ -3,16 +3,23 @@ import { Card } from "@/components/ui/card";
 import { BugPlay, LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import DetectionActions from "./DetectionActions";
-import DetectionLoader from "@/components/loaders/DetectionLoader";
 import ImageViewer from "./ImageViewer";
+import axios from "axios";
+import DetectionDetails from "./DetectionDetails";
 
 const DetectImage = ({ imageUrl, output, setOutput }) => {
   const [isDetecting, setIsDetecting] = useState();
 
-  const detectImage = () => {
+  const detectImage = async () => {
     try {
       setIsDetecting(true);
-      //
+      const res = await axios.post("http://localhost:3000/api/roboflow", {
+        imageUrl,
+      });
+
+      if (!res) throw new Error("There was an error in detecting image");
+
+      setOutput(res.data);
     } catch (error) {
       console.error(error.message);
     } finally {
@@ -21,8 +28,8 @@ const DetectImage = ({ imageUrl, output, setOutput }) => {
   };
 
   return (
-    <Card>
-      <div className="flex justify-between items-center gap-4 mb-4">
+    <Card className="flex flex-col gap-4">
+      <div className="flex justify-between items-center gap-4 ">
         <h4 className="title">Detect Pests</h4>
         <div className="flex gap-2">
           <Button
@@ -38,20 +45,24 @@ const DetectImage = ({ imageUrl, output, setOutput }) => {
               </>
             )}
           </Button>
-          <DetectionActions />
+          <DetectionActions
+            imageUrl={output.image}
+            data={output.data}
+            isDetecting={isDetecting}
+          />
         </div>
       </div>
-      <div className="mb-4">
+      <div className="">
         <p className="text-sm">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, ut!
         </p>
       </div>
-      <div className="h-[450px] w-full flex flex-col items-center justify-center bg-slate-200 rounded-md relative">
-        {isDetecting && <DetectionLoader />}
-        <ImageViewer image={output} isLoading={isDetecting}>
+      <div className="aspect-video w-full flex flex-col items-center justify-center bg-slate-200 rounded-md overflow-hidden relative">
+        <ImageViewer image={output.image} isLoading={isDetecting}>
           Image not found.
         </ImageViewer>
       </div>
+      <DetectionDetails data={output.data} />
     </Card>
   );
 };
