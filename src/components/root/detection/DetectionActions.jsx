@@ -1,14 +1,10 @@
-import { Bug, CloudUpload, Download, EllipsisVertical } from "lucide-react";
+import { CloudUpload, Download, EllipsisVertical } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
@@ -24,27 +20,23 @@ const DetectionActions = ({ imageUrl, data, isDetecting }) => {
   };
 
   const onCloudUpload = () => {
-    try {
-      const output = {
-        image: imageUrl,
-        time: data.time,
-        detections: data.predictions.map((prediction) => {
-          return {
-            class: prediction.class,
-            classId: prediction.class_id,
-            confidence: prediction.confidence,
-          };
-        }),
-      };
+    const output = {
+      image: imageUrl,
+      time: data.time,
+      detections: data.predictions.map((prediction) => {
+        return {
+          class: prediction.class,
+          classId: prediction.class_id,
+          confidence: prediction.confidence,
+        };
+      }),
+    };
 
-      toast.promise(addOutput(output), {
-        loading: "Saving...",
-        success: "Output image successfully saved",
-      });
-    } catch (error) {
-      console.error(error.message);
-      toast.error(error.message);
-    }
+    toast.promise(addOutput(output), {
+      loading: "Saving...",
+      success: "Output image successfully saved",
+      errro: "Error saving the image",
+    });
   };
   return (
     <DropdownMenu>
@@ -56,25 +48,6 @@ const DetectionActions = ({ imageUrl, data, isDetecting }) => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {/* <DropdownMenuSub>
-          <DropdownMenuSubTrigger>
-            <Bug className="w-4 h-4 mr-2" />
-            View Info
-          </DropdownMenuSubTrigger>
-          <DropdownMenuPortal>
-            <DropdownMenuSubContent>
-              {!data.predictions || data.predictions.length === 0 ? (
-                <DropdownMenuItem>No pest detected</DropdownMenuItem>
-              ) : (
-                data.predictions.map((prediction) => (
-                  <DropdownMenuItem key={prediction.class_id}>
-                    {prediction.class}
-                  </DropdownMenuItem>
-                ))
-              )}
-            </DropdownMenuSubContent>
-          </DropdownMenuPortal>
-        </DropdownMenuSub> */}
         <DropdownMenuItem onClick={onCloudUpload}>
           <CloudUpload
             className="

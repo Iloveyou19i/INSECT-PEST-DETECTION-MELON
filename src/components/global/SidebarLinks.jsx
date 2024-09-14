@@ -1,15 +1,16 @@
 "use client";
-import { sidebarLinks } from "@/constants";
+import { userLinks, adminLinks } from "@/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const SidebarLinks = () => {
   const pathname = usePathname();
+  const links = !pathname.includes("admin") ? userLinks : adminLinks;
 
   return (
     <nav className="w-full">
       <ul className="w-full flex flex-col gap-2">
-        {sidebarLinks.map(({ label, href, Icon }) => {
+        {links.map(({ label, href, Icon }) => {
           const isActive =
             (pathname.includes(href) && href.length > 1) || pathname === href;
 

@@ -11,12 +11,13 @@ import {
 import { Button } from "../ui/button";
 import { Menu } from "lucide-react";
 import Image from "next/image";
-import { sidebarLinks } from "@/constants";
+import { userLinks, adminLinks } from "@/constants";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const MobileSidebar = () => {
   const pathname = usePathname();
+  const links = !pathname.includes("admin") ? userLinks : adminLinks;
 
   return (
     <Sheet>
@@ -34,7 +35,7 @@ const MobileSidebar = () => {
             <SheetDescription aria-describedby="mobile sidebar"></SheetDescription>
           </SheetHeader>
           <ul className="w-full flex flex-col gap-2">
-            {sidebarLinks.map(({ label, href, Icon }) => {
+            {links.map(({ label, href, Icon }) => {
               const isActive =
                 (pathname.includes(href) && href.length > 1) ||
                 pathname === href;

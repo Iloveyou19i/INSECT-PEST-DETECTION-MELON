@@ -85,6 +85,10 @@
     @apply text-2xl font-extrabold;
   }
 
+  .h4 {
+    @apply text-xl font-extrabold;
+  }
+
   .sub-text {
     @apply text-sm md:text-base text-slate-500;
   }

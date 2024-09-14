@@ -10,11 +10,21 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
+import { LogOut, User } from "lucide-react";
+import toast from "react-hot-toast";
 
 const UserAvatar = ({ image }) => {
+  const handleSignOut = () => {
+    toast.promise(signOut(), {
+      loading: "Logging out",
+      success: "Logout success",
+      error: "There was an error logging out",
+    });
+  };
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
         <Avatar>
           <AvatarImage src={image} />
           <AvatarFallback>CN</AvatarFallback>
@@ -24,9 +34,14 @@ const UserAvatar = ({ image }) => {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href={`/profile`}>Profile</Link>
+          <Link href={`/profile`}>
+            <User className="w-4 h-4 mr-2" /> Profile
+          </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={signOut}>Logout</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleSignOut}>
+          <LogOut className="w-4 h-4 mr-2" />
+          Logout
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

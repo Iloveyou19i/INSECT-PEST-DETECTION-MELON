@@ -3,6 +3,10 @@ import UserAvatar from "./UserAvatar";
 import { auth } from "@/lib/auth";
 import Image from "next/image";
 import MobileSidebar from "./MobileSidebar";
+import { Button } from "../ui/button";
+import { CircleUserRound } from "lucide-react";
+import Link from "next/link";
+import AdminButton from "../admin/AdminButton";
 
 const Navbar = async () => {
   const { user } = await auth();
@@ -14,9 +18,10 @@ const Navbar = async () => {
           <div className="inline-block md:hidden">
             <MobileSidebar />
           </div>
-          <Image src="./logo.svg" alt="Logo" height={50} width={100} />
+          <Image src="/logo.svg" alt="Logo" height={50} width={100} />
         </div>
-        <div className="flex items-center">
+        <div className="flex gap-4 items-center">
+          {user.role === "admin" && <AdminButton />}
           <UserAvatar image={user.image} />
         </div>
       </div>
