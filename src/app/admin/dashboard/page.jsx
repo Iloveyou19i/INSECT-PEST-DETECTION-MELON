@@ -6,7 +6,11 @@ const page = async () => {
 
   if (user.role !== "admin") redirect("/");
 
-  return <div>Dashboard page</div>;
+  return (
+    <section className="flex flex-col gap-4">
+      <h2 className="h2">Dashboard</h2>
+    </section>
+  );
 };
 
 export default page;

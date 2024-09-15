@@ -3,9 +3,6 @@ import UserAvatar from "./UserAvatar";
 import { auth } from "@/lib/auth";
 import Image from "next/image";
 import MobileSidebar from "./MobileSidebar";
-import { Button } from "../ui/button";
-import { CircleUserRound } from "lucide-react";
-import Link from "next/link";
 import AdminButton from "../admin/AdminButton";
 
 const Navbar = async () => {
