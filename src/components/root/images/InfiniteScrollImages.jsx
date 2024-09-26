@@ -35,7 +35,7 @@ const InfiniteScrollImages = ({ data, hasNextPage }) => {
   }, [inView]);
 
   return (
-    <section className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {images.map((output) => (
           <ImageItem key={output.id} output={output} />
@@ -46,7 +46,7 @@ const InfiniteScrollImages = ({ data, hasNextPage }) => {
           <LoaderCircle className="h-5 w-5 text-primary animate-spin" />
         </div>
       )}
-    </section>
+    </div>
   );
 };
 

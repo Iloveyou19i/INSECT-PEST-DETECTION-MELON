@@ -1,12 +1,12 @@
+import ImagesLoader from "@/components/loaders/ImagesLoader";
 import GridImages from "@/components/root/images/GridImages";
-import ImagesLoader from "@/components/root/images/ImagesLoader";
 import React, { Suspense } from "react";
 
 const page = () => {
   return (
     <section>
       <h2 className="h2 pb-4">Images</h2>
-      <Suspense fallback={<ImagesLoader />}>
+      <Suspense fallback={<ImagesLoader length={12} />}>
         <GridImages />
       </Suspense>
     </section>

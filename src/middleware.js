@@ -9,7 +9,7 @@ const userRoutes = ["/", "/images", "/detection"];
 
 const adminRoutes = ["/admin"];
 
-export default auth((req) => {
+export default auth(async (req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 

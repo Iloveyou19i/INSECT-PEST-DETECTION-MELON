@@ -9,7 +9,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { toMs } from "@/lib/utils";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export const columns = [
   {
@@ -35,47 +38,52 @@ export const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
+    accessorKey: "id",
+    header: "Id",
+    cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
   },
   {
-    accessorKey: "email",
-    header: ({ column }) => {
+    accessorKey: "image",
+    header: () => <div className="text-center">Image</div>,
+    cell: ({ row }) => {
+      const output = row.original;
+
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <div className="flex justify-center">
+          <Image
+            src={output.image}
+            alt="output-image"
+            height={40}
+            width={40}
+            className="object-cover object-center"
+          />
+        </div>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: "detections",
+    header: () => <div className="text-center">Detections</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
+      const output = row.original;
 
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
+      return <div className="text-center">{output.detections.length}</div>;
+    },
+  },
+  {
+    accessorKey: "time",
+    header: () => <div className="text-center">Inference Time</div>,
+    cell: ({ row }) => {
+      const output = row.original;
 
-      return <div className="text-right font-medium">{formatted}</div>;
+      return <div className="text-center">{toMs(output.time)}</div>;
     },
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
+      const output = row.original;
 
       return (
         <DropdownMenu>
@@ -88,13 +96,15 @@ export const columns = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(output.id)}
             >
-              Copy payment ID
+              Copy Id
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/admin/outputs/${output.id}`}>View</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
