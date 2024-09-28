@@ -9,8 +9,6 @@ const page = async () => {
     },
   });
 
-  console.log(outputs.length);
-
   return (
     <section className="flex flex-col gap-4">
       <h2 className="h2">Manage Outputs</h2>

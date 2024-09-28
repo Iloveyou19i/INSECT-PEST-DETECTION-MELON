@@ -16,6 +16,7 @@ model User {
   profileImg    String
   role          Role      @default(user)
   outputs       Output[]
+  pests         Pest[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -45,4 +46,24 @@ model Detection {
   outputId   String?  @db.ObjectId
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+}
+
+model Pest {
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  name        String         @unique
+  description String?
+  pictures    PestPictures[]
+  author      String?        @db.ObjectId
+  user        User?          @relation(fields: [author], references: [id], onDelete: Cascade)
+  isPublished Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model PestPictures {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  pestId    String?  @db.ObjectId
+  pest      Pest?    @relation(fields: [pestId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

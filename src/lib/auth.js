@@ -10,8 +10,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token) {
         const user = await getUserById(token.sub);
 
-        console.log(user);
-
         token.role = user.role;
       }
       return token;
