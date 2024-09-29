@@ -1,5 +1,4 @@
 "use server";
-import { redirect } from "next/navigation";
 import { auth } from "../auth";
 import prisma from "../prisma";
 import { revalidatePath } from "next/cache";
@@ -24,18 +23,19 @@ export const addPest = async (name) => {
   }
 };
 
-export const updatePest = async (pest) => {
+export const updatePest = async (id, name, description) => {
   try {
     await prisma.pest.update({
       where: {
-        id: pest.id,
+        id,
       },
       data: {
-        ...pest,
+        name,
+        description,
       },
     });
 
-    revalidatePath(`/admin/pests/${pest.id}`);
+    revalidatePath(`/admin/pests/${id}`);
   } catch (error) {
     console.error(error.message);
     throw new Error(error.message);
