@@ -1,4 +1,5 @@
 "use client";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -66,8 +67,14 @@ export const columns = [
     accessorKey: "role",
     header: () => <div className="text-center">Role</div>,
     cell: ({ row }) => {
+      const role = row.getValue("role");
+
       return (
-        <div className="text-center capitalize">{row.getValue("role")}</div>
+        <div className="text-center capitalize">
+          <Badge variant={role === "admin" ? "default" : "secondary"}>
+            {role}
+          </Badge>
+        </div>
       );
     },
   },

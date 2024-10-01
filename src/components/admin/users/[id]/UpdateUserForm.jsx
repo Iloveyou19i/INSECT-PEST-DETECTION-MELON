@@ -1,7 +1,6 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import SelectInput from "@/components/global/SelectInput";
+import UserAvatar from "@/components/global/UserAvatar";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,17 +11,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Image from "next/image";
-import { useState } from "react";
-import { LoaderCircle, User } from "lucide-react";
-import Link from "next/link";
 import { useUploadThing } from "@/lib/uploadthing";
-import { isBase64 } from "@/lib/utils";
-import { register } from "@/lib/actions/auth.actions";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import UserAvatar from "@/components/global/UserAvatar";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const formSchema = z.object({
   profileImg: z.string().min(1, {
@@ -40,22 +34,41 @@ const formSchema = z.object({
   password: z.string().min(8, {
     message: "Password must be more than 8 characters.",
   }),
+  role: z.string().min(1, {
+    message: "Role field is required.",
+  }),
 });
 
-const SignUpForm = () => {
+const roleItems = [
+  {
+    label: "User",
+    value: "user",
+  },
+  {
+    label: "Admin",
+    value: "admin",
+  },
+];
+
+const UpdateUserForm = ({ user }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [files, setFiles] = useState([]);
+  const { startUpload, isUploading } = useUploadThing("profileImg");
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolvers: zodResolver(formSchema),
     defaultValues: {
-      profileImg: "",
-      name: "",
-      email: "",
-      password: "",
+      profileImg: user.profileImg || "",
+      name: user.name || "",
+      email: user.email || "",
+      password: user.password || "",
+      role: user.role || "",
     },
   });
-  const { startUpload, isUploading } = useUploadThing("profileImg");
-  const router = useRouter();
+
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleImageUpload = (e, fieldChange) => {
     e.preventDefault();
@@ -78,55 +91,32 @@ const SignUpForm = () => {
     fileReader.readAsDataURL(file);
   };
 
-  const onSubmit = async (values) => {
+  const onSubmit = (values) => {
     try {
       setIsSubmitting(true);
-
-      if (isBase64(values.profileImg)) {
-        const image = [...files];
-
-        const imageRes = await startUpload(image);
-
-        if (!imageRes) throw new Error("Error uploading image");
-
-        values.profileImg = imageRes[0].url;
-      }
-
-      await register(values);
-
-      toast.success("Account created successfully");
-      router.push("/sign-in");
+      console.log(values);
     } catch (error) {
       console.error(error.message);
-      toast.error("Error creating account");
     } finally {
       setIsSubmitting(false);
     }
   };
-
   return (
-    <div className="w-[90%] md:w-[70%] flex flex-col items-center gap-8">
-      <div className="w-full flex flex-col items-center gap-4 mb-8">
-        <Image src="./logo.svg" alt="Logo" height={70} width={140} />
-        <h2 className="h2 text-center">Create Your Account</h2>
-        <p className="sub-text text-center">Lorem ipsum dolor sit amet.</p>
-      </div>
-      <div className="w-full">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-4"
-          >
+    <div>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-4"
+        >
+          <div>
             <FormField
               control={form.control}
               name="profileImg"
               render={({ field }) => (
-                <FormItem className="flex items-center gap-4">
-                  <div>
-                    <FormLabel className="avatar-container">
-                      <UserAvatar img={field.value} size="md" />
-                    </FormLabel>
-                  </div>
+                <FormItem className="flex flex-col md:flex-row items-center gap-4">
+                  <FormLabel className="avatar-container">
+                    <UserAvatar img={field.value} size="md" />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="file"
@@ -141,6 +131,8 @@ const SignUpForm = () => {
                 </FormItem>
               )}
             />
+          </div>
+          <div className="w-full flex flex-col gap-4">
             <FormField
               control={form.control}
               name="name"
@@ -182,41 +174,61 @@ const SignUpForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Password"
-                      {...field}
+                  <div className="flex gap-2">
+                    <FormControl>
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                        {...field}
+                        disabled={isSubmitting}
+                      />
+                    </FormControl>
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      onClick={togglePassword}
                       disabled={isSubmitting}
+                    >
+                      {showPassword ? (
+                        <Eye className="h-4 w-4" />
+                      ) : (
+                        <EyeOff className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Role</FormLabel>
+                  <FormControl>
+                    <SelectInput
+                      label="Select role"
+                      items={roleItems}
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? (
-                <LoaderCircle className="h-5 w-5 animate-spin" />
-              ) : (
-                "Create account"
+            <Button size="sm" disabled={isSubmitting}>
+              {isSubmitting && (
+                <LoaderCircle className="h-4 w-4 animate-spin" />
               )}
+              Update Profile
             </Button>
-          </form>
-        </Form>
-      </div>
-      <div>
-        <p className="sub-text text-center">
-          Already have an account?{" "}
-          <Link
-            href="/sign-in"
-            className="text-black hover:underline transition-all"
-          >
-            Sign In
-          </Link>
-        </p>
-      </div>
+          </div>
+        </form>
+      </Form>
     </div>
   );
 };
 
-export default SignUpForm;
+export default UpdateUserForm;

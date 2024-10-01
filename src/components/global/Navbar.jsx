@@ -1,9 +1,9 @@
 import React from "react";
-import UserAvatar from "./UserAvatar";
 import { auth } from "@/lib/auth";
 import Image from "next/image";
 import MobileSidebar from "./MobileSidebar";
 import AdminButton from "../admin/AdminButton";
+import UserDropdown from "./UserDropdown";
 
 const Navbar = async () => {
   const { user } = await auth();
@@ -19,7 +19,7 @@ const Navbar = async () => {
         </div>
         <div className="flex gap-4 items-center">
           {user.role === "admin" && <AdminButton />}
-          <UserAvatar image={user.image} />
+          <UserDropdown image={user.image} />
         </div>
       </div>
     </section>
