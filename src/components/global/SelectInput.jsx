@@ -18,7 +18,9 @@ const SelectInput = ({ label, items, defaultValue, onValueChange }) => {
         <SelectGroup>
           {/* <SelectLabel>Fruits</SelectLabel> */}
           {items.map(({ label, value }) => (
-            <SelectItem value={value}>{label}</SelectItem>
+            <SelectItem key={value} value={value}>
+              {label}
+            </SelectItem>
           ))}
         </SelectGroup>
       </SelectContent>

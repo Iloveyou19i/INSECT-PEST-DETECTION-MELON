@@ -11,11 +11,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { updateUser } from "@/lib/actions/user.actions";
 import { useUploadThing } from "@/lib/uploadthing";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -31,9 +33,6 @@ const formSchema = z.object({
       message: "Email field is required.",
     })
     .email({ message: "Invalid email." }),
-  password: z.string().min(8, {
-    message: "Password must be more than 8 characters.",
-  }),
   role: z.string().min(1, {
     message: "Role field is required.",
   }),
@@ -61,7 +60,6 @@ const UpdateUserForm = ({ user }) => {
       profileImg: user.profileImg || "",
       name: user.name || "",
       email: user.email || "",
-      password: user.password || "",
       role: user.role || "",
     },
   });
@@ -91,12 +89,24 @@ const UpdateUserForm = ({ user }) => {
     fileReader.readAsDataURL(file);
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     try {
       setIsSubmitting(true);
-      console.log(values);
+
+      const { name, email, profileImg, role } = values;
+
+      await updateUser(
+        user.id,
+        name,
+        email,
+        profileImg,
+        role,
+        `/admin/users/${user.id}`
+      );
+      toast.success("User updated successfully");
     } catch (error) {
       console.error(error.message);
+      toast.error(error.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -170,38 +180,6 @@ const UpdateUserForm = ({ user }) => {
             />
             <FormField
               control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <div className="flex gap-2">
-                    <FormControl>
-                      <Input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Password"
-                        {...field}
-                        disabled={isSubmitting}
-                      />
-                    </FormControl>
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      onClick={togglePassword}
-                      disabled={isSubmitting}
-                    >
-                      {showPassword ? (
-                        <Eye className="h-4 w-4" />
-                      ) : (
-                        <EyeOff className="h-4 w-4" />
-                      )}
-                    </Button>
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="role"
               render={({ field }) => (
                 <FormItem>
@@ -220,7 +198,7 @@ const UpdateUserForm = ({ user }) => {
             />
             <Button size="sm" disabled={isSubmitting}>
               {isSubmitting && (
-                <LoaderCircle className="h-4 w-4 animate-spin" />
+                <LoaderCircle className="h-4 w-4 mr-2 animate-spin" />
               )}
               Update Profile
             </Button>
