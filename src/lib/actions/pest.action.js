@@ -23,7 +23,7 @@ export const addPest = async (name) => {
   }
 };
 
-export const updatePest = async (id, name, description) => {
+export const updatePest = async (id, name, class_name, description) => {
   try {
     await prisma.pest.update({
       where: {
@@ -31,6 +31,7 @@ export const updatePest = async (id, name, description) => {
       },
       data: {
         name,
+        class_name,
         description,
       },
     });
@@ -50,6 +51,46 @@ export const updatePestStatus = async (id, status) => {
       },
       data: {
         isPublished: status,
+      },
+    });
+
+    revalidatePath(`/admin/pests/${id}`);
+  } catch (error) {
+    console.error(error.message);
+    throw new Error(error.message);
+  }
+};
+
+export const updatePictures = async (id, pictures) => {
+  try {
+    await prisma.pest.update({
+      where: {
+        id,
+      },
+      data: {
+        pictures: {
+          create: pictures,
+        },
+      },
+    });
+
+    revalidatePath(`/admin/pests/${id}`);
+  } catch (error) {
+    console.error(error.message);
+    throw new Error(error.message);
+  }
+};
+
+export const deletePicture = async (id, pictureId) => {
+  try {
+    await prisma.pest.update({
+      where: {
+        id,
+      },
+      data: {
+        pictures: {
+          deleteMany: [{ id: pictureId }],
+        },
       },
     });
 

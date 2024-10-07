@@ -13,22 +13,26 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { LoaderCircle } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { updatePest } from "@/lib/actions/pest.action";
+import { updatePest, updatePictures } from "@/lib/actions/pest.action";
 import toast from "react-hot-toast";
+import { UploadDropzone } from "@/lib/uploadthing";
+import PestAsset from "./PestAsset";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name field required" }),
+  class_name: z.string().min(1, { message: "Class name field required" }),
   description: z.string().min(1, { message: "Name field required" }),
 });
 
-const PestForm = ({ id, name, description }) => {
+const PestForm = ({ id, name, class_name, description, pictures }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: name || "",
+      class_name: class_name || "",
       description: description || "",
     },
   });
@@ -37,7 +41,7 @@ const PestForm = ({ id, name, description }) => {
     try {
       setIsSubmitting(true);
 
-      await updatePest(id, values.name, values.description);
+      await updatePest(id, values.name, values.class_name, values.description);
 
       toast.success("Pest updated successfully");
     } catch (error) {
@@ -51,40 +55,92 @@ const PestForm = ({ id, name, description }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="e.g White Fly"
-                  disabled={isSubmitting}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="e.g This pest ..."
-                  disabled={isSubmitting}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex flex-col gap-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="e.g White Fly"
+                      disabled={isSubmitting}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="class_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Class Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="e.g White Fly"
+                      disabled={isSubmitting}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="e.g This pest ..."
+                      disabled={isSubmitting}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormLabel>Treatments</FormLabel>
+            <FormLabel>Preventions</FormLabel>
+          </div>
+          <div className="flex flex-col gap-4">
+            <FormLabel>Pictures</FormLabel>
+            <div className="flex flex-col gap-2">
+              {pictures.map((picture, i) => (
+                <React.Fragment key={picture.id}>
+                  <PestAsset
+                    id={picture.id}
+                    idx={i}
+                    imageUrl={picture.imageUrl}
+                    pestId={id}
+                  />
+                </React.Fragment>
+              ))}
+            </div>
+            <UploadDropzone
+              className="w-full h-full bg-slate-100 ut-label:text-primary ut-allowed-content:ut-uploading:text-primary ut-button:bg-primary ut-button:ut-readying:bg-primary/50 ut-button:ut-uploading:bg-primary/50 ut-button:ut-readying:bg-primary-50"
+              endpoint="pestPictures"
+              onClientUploadComplete={async (res) => {
+                if (res) {
+                  const pestPictures = res.map(({ url }) => {
+                    return { imageUrl: url };
+                  });
+
+                  await updatePictures(id, pestPictures);
+                  toast.success("Pictures updated");
+                }
+              }}
+            />
+          </div>
+        </div>
         <div className="flex justify-end">
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting && (

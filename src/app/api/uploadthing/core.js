@@ -19,4 +19,7 @@ export const ourFileRouter = {
   pestImage: f({ image: { maxFileCount: 1, maxFileSize: "4MB" } })
     .middleware(() => handleAuth())
     .onUploadComplete(() => {}),
+  pestPictures: f({ image: { maxFileCount: 5, maxFileSize: "4MB" } })
+    .middleware(() => handleAuth())
+    .onUploadComplete(() => {}),
 };

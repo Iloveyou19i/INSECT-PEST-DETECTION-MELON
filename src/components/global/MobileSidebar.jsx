@@ -30,7 +30,7 @@ const MobileSidebar = () => {
         <div className="flex flex-col gap-4">
           <SheetHeader>
             <SheetTitle>
-              <Image src="/logo.svg" alt="Logo" height={50} width={100} />
+              <Image src="/logo.png" alt="Logo" height={30} width={30} />
             </SheetTitle>
             <SheetDescription aria-describedby="mobile sidebar"></SheetDescription>
           </SheetHeader>

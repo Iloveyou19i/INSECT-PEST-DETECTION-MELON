@@ -45,9 +45,9 @@ const SignInForm = () => {
   return (
     <div className="w-[90%] md:w-[70%] flex flex-col items-center gap-8">
       <div className="w-full flex flex-col items-center gap-4 mb-8">
-        <Image src="./logo.svg" alt="Logo" height={70} width={140} />
+        <Image src="/logo.png" alt="Logo" height={120} width={120} />
         <h2 className="h2 text-center">Login Your Account</h2>
-        <p className="sub-text text-center">Lorem ipsum dolor sit amet.</p>
+        {/* <p className="sub-text text-center">Lorem ipsum dolor sit amet.</p> */}
       </div>
       <div className="w-full">
         <Form {...form}>
@@ -95,7 +95,7 @@ const SignInForm = () => {
               {isSubmitting ? (
                 <LoaderCircle className="h-5 w-5 animate-spin" />
               ) : (
-                "Submit"
+                "Login"
               )}
             </Button>
           </form>

@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import React from "react";
 
 const page = async ({ params }) => {
-  const { id, name, description, author, isPublished, pictures } =
+  const { id, name, class_name, description, author, isPublished, pictures } =
     await prisma.pest.findUnique({
       where: {
         id: params.id,
@@ -17,7 +17,13 @@ const page = async ({ params }) => {
   return (
     <section className="flex flex-col gap-4">
       <PestHeader id={id} name={name} isPublished={isPublished} />
-      <PestForm id={id} name={name} description={description} />
+      <PestForm
+        id={id}
+        name={name}
+        class_name={class_name}
+        description={description}
+        pictures={pictures}
+      />
     </section>
   );
 };

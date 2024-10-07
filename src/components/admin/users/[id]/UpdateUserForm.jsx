@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { updateUser } from "@/lib/actions/user.actions";
 import { useUploadThing } from "@/lib/uploadthing";
+import { isBase64 } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { useState } from "react";
@@ -93,6 +94,16 @@ const UpdateUserForm = ({ user }) => {
     try {
       setIsSubmitting(true);
 
+      if (isBase64(values.profileImg)) {
+        const image = [...files];
+
+        const imageRes = await startUpload(image);
+
+        if (!imageRes) throw new Error("Error uploading image");
+
+        values.profileImg = imageRes[0].url;
+      }
+
       const { name, email, profileImg, role } = values;
 
       await updateUser(
@@ -111,6 +122,7 @@ const UpdateUserForm = ({ user }) => {
       setIsSubmitting(false);
     }
   };
+
   return (
     <div>
       <Form {...form}>

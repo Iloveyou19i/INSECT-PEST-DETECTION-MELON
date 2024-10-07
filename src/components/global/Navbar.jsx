@@ -15,7 +15,7 @@ const Navbar = async () => {
           <div className="inline-block md:hidden">
             <MobileSidebar />
           </div>
-          <Image src="/logo.svg" alt="Logo" height={50} width={100} />
+          <Image src="/logo.png" alt="Logo" height={30} width={30} />
         </div>
         <div className="flex gap-4 items-center">
           {user.role === "admin" && <AdminButton />}

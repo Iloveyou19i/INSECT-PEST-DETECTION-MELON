@@ -100,7 +100,7 @@ export const addOutput = async (output) => {
   }
 };
 
-export const deleteOutput = async (id) => {
+export const deleteOutput = async (id, path) => {
   try {
     const { user } = await auth();
 
@@ -115,7 +115,7 @@ export const deleteOutput = async (id) => {
       },
     });
 
-    revalidatePath("/images");
+    revalidatePath(path);
   } catch (error) {
     console.error(error.message);
   }

@@ -9,10 +9,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { deleteOutput } from "@/lib/actions/output.action";
 import { toMs } from "@/lib/utils";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 export const columns = [
   {
@@ -85,6 +87,16 @@ export const columns = [
     cell: ({ row }) => {
       const output = row.original;
 
+      const handleDelete = async () => {
+        try {
+          await deleteOutput(output.id, "/admin/outputs");
+          toast.success("Output deleted");
+        } catch (error) {
+          console.error(error.message);
+          toast.error(error.message);
+        }
+      };
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -104,7 +116,7 @@ export const columns = [
             <DropdownMenuItem>
               <Link href={`/admin/outputs/${output.id}`}>View</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

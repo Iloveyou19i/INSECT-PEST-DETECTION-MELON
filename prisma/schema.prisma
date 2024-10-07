@@ -51,6 +51,7 @@ model Detection {
 model Pest {
   id          String         @id @default(auto()) @map("_id") @db.ObjectId
   name        String         @unique
+  class_name  String?        @unique
   description String?
   pictures    PestPictures[]
   author      String?        @db.ObjectId
@@ -63,6 +64,7 @@ model Pest {
 model PestPictures {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   pestId    String?  @db.ObjectId
+  imageUrl  String?
   pest      Pest?    @relation(fields: [pestId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

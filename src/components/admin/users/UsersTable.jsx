@@ -125,7 +125,7 @@ export default function UsersTable({ users }) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="bg-white rounded-md border">
+      <div className="max-h-[60vh] overflow-auto bg-white rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
