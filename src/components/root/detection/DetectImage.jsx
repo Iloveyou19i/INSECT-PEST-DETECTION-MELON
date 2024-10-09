@@ -6,6 +6,7 @@ import DetectionActions from "./DetectionActions";
 import ImageViewer from "./ImageViewer";
 import axios from "axios";
 import DetectionDetails from "./DetectionDetails";
+import { DOMAIN } from "@/lib/utils";
 
 const DetectImage = ({ imageUrl, output, setOutput }) => {
   const [isDetecting, setIsDetecting] = useState();
