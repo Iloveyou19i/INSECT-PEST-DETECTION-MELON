@@ -13,7 +13,7 @@ const DetectImage = ({ imageUrl, output, setOutput }) => {
   const detectImage = async () => {
     try {
       setIsDetecting(true);
-      const res = await axios.post("http://localhost:3000/api/roboflow", {
+      const res = await axios.post(`${DOMAIN}/api/roboflow`, {
         imageUrl,
       });
 

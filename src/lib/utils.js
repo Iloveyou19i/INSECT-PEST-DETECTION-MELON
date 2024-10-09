@@ -1,6 +1,9 @@
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+// export const DOMAIN = "http://localhost:3000"
+export const DOMAIN = "https://insect-pest-detection-melon.vercel.app";
+
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
