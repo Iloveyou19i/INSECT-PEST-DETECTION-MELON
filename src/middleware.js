@@ -5,9 +5,16 @@ const { auth } = NextAuth(authConfig);
 
 const authRoutes = ["/sign-in", "/sign-up"];
 
-const userRoutes = ["/", "/images", "/detection"];
+const userRoutes = [
+  "/",
+  "/images",
+  "/images/:path*",
+  "/detection",
+  "/pests",
+  "/pests/:path*",
+];
 
-const adminRoutes = ["/admin"];
+const adminRoutes = ["/admin/:path*"];
 
 export default auth(async (req) => {
   const { nextUrl } = req;
