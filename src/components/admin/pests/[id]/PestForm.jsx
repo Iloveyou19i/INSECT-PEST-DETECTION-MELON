@@ -24,9 +24,38 @@ const formSchema = z.object({
   name: z.string().min(1, { message: "Name field required" }),
   class_name: z.string().min(1, { message: "Class name field required" }),
   description: z.string().min(1, { message: "Name field required" }),
+  pictures: z
+    .array(
+      z.object({
+        imageUrl: z.string(),
+      })
+    )
+    .nonempty({ message: "Atleast 1 picture is required" }),
+  treatments: z
+    .array(
+      z.object({
+        treatment: z.string(),
+      })
+    )
+    .nonempty({ message: "Atleast 1 treatment is required" }),
+  prevention: z
+    .array(
+      z.object({
+        prevention: z.string(),
+      })
+    )
+    .nonempty({ message: "Atleast 1 prevention is required" }),
 });
 
-const PestForm = ({ id, name, class_name, description, pictures }) => {
+const PestForm = ({
+  id,
+  name,
+  class_name,
+  description,
+  pictures,
+  treatments,
+  preventions,
+}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -34,6 +63,9 @@ const PestForm = ({ id, name, class_name, description, pictures }) => {
       name: name || "",
       class_name: class_name || "",
       description: description || "",
+      pictures: pictures || [],
+      treatments: treatments || [],
+      preventions: preventions || [],
     },
   });
 
@@ -108,36 +140,62 @@ const PestForm = ({ id, name, class_name, description, pictures }) => {
                 </FormItem>
               )}
             />
-            <FormLabel>Treatments</FormLabel>
-            <FormLabel>Preventions</FormLabel>
+            <FormField
+              control={form.control}
+              name="treatments"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Treatments</FormLabel>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="preventions"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Preventions</FormLabel>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           <div className="flex flex-col gap-4">
-            <FormLabel>Pictures</FormLabel>
-            <div className="flex flex-col gap-2">
-              {pictures.map((picture, i) => (
-                <React.Fragment key={picture.id}>
-                  <PestAsset
-                    id={picture.id}
-                    idx={i}
-                    imageUrl={picture.imageUrl}
-                    pestId={id}
-                  />
-                </React.Fragment>
-              ))}
-            </div>
-            <UploadDropzone
-              className="w-full h-full bg-slate-100 ut-label:text-primary ut-allowed-content:ut-uploading:text-primary ut-button:bg-primary ut-button:ut-readying:bg-primary/50 ut-button:ut-uploading:bg-primary/50 ut-button:ut-readying:bg-primary-50"
-              endpoint="pestPictures"
-              onClientUploadComplete={async (res) => {
-                if (res) {
-                  const pestPictures = res.map(({ url }) => {
-                    return { imageUrl: url };
-                  });
+            <FormField
+              control={form.control}
+              name="pictures"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Pictures</FormLabel>
+                  <div className="flex flex-col gap-2">
+                    {pictures.map((picture, i) => (
+                      <React.Fragment key={picture.id}>
+                        <PestAsset
+                          id={picture.id}
+                          idx={i}
+                          imageUrl={picture.imageUrl}
+                          pestId={id}
+                        />
+                      </React.Fragment>
+                    ))}
+                  </div>
+                  <UploadDropzone
+                    className="w-full aspect-video bg-slate-100 ut-label:text-primary ut-allowed-content:ut-uploading:text-primary ut-button:bg-primary ut-button:ut-readying:bg-primary/50 ut-button:ut-uploading:bg-primary/50 ut-button:ut-readying:bg-primary-50"
+                    endpoint="pestPictures"
+                    onClientUploadComplete={async (res) => {
+                      if (res) {
+                        const pestPictures = res.map(({ url }) => {
+                          return { imageUrl: url };
+                        });
 
-                  await updatePictures(id, pestPictures);
-                  toast.success("Pictures updated");
-                }
-              }}
+                        await updatePictures(id, pestPictures);
+                        toast.success("Pictures updated");
+                      }
+                    }}
+                  />
+                </FormItem>
+              )}
             />
           </div>
         </div>

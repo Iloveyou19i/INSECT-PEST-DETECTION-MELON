@@ -2,6 +2,7 @@ import Credentials from "next-auth/providers/credentials";
 import prisma from "./prisma";
 import bcrypt from "bcryptjs";
 import z from "zod";
+import { updateLogs } from "./actions/user.actions";
 
 export const loginSchema = z.object({
   email: z
@@ -35,12 +36,15 @@ export default {
             user.password
           );
 
-          if (isPasswordMatched)
+          if (isPasswordMatched) {
+            await updateLogs(user.id);
+
             return {
               ...user,
               image: user.profileImg,
               role: user.role,
             };
+          }
         }
 
         return null;

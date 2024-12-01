@@ -1,4 +1,12 @@
-import { Bug, Images, LayoutDashboard, ScanLine, Users } from "lucide-react";
+import {
+  Bug,
+  CircleUserRound,
+  Images,
+  LayoutDashboard,
+  Logs,
+  ScanLine,
+  Users,
+} from "lucide-react";
 
 export const colors = [
   "blue",
@@ -31,6 +39,11 @@ export const userLinks = [
     href: "/pests",
     Icon: Bug,
   },
+  {
+    label: "Profile",
+    href: "/profile",
+    Icon: CircleUserRound,
+  },
 ];
 
 export const adminLinks = [
@@ -53,5 +66,15 @@ export const adminLinks = [
     label: "Manage Pests",
     href: "/admin/pests",
     Icon: Bug,
+  },
+  {
+    label: "Manage Logs",
+    href: "/admin/logs",
+    Icon: Logs,
+  },
+  {
+    label: "Profile",
+    href: "/admin/profile",
+    Icon: CircleUserRound,
   },
 ];

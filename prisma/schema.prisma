@@ -7,23 +7,32 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  email         String    @unique
-  emailVerified DateTime?
-  password      String
-  profileImg    String
-  role          Role      @default(user)
-  outputs       Output[]
-  pests         Pest[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-}
-
 enum Role {
   user
   admin
+}
+
+model User {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  email         String     @unique
+  emailVerified DateTime?
+  password      String
+  profileImg    String
+  role          Role       @default(user)
+  outputs       Output[]
+  pests         Pest[]
+  logs          UserLogs[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model UserLogs {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  description String
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
 }
 
 model Output {
@@ -49,23 +58,43 @@ model Detection {
 }
 
 model Pest {
-  id          String         @id @default(auto()) @map("_id") @db.ObjectId
-  name        String         @unique
-  class_name  String?        @unique
+  id          String            @id @default(auto()) @map("_id") @db.ObjectId
+  name        String            @unique
+  class_name  String?           @unique
   description String?
   pictures    PestPictures[]
-  author      String?        @db.ObjectId
-  user        User?          @relation(fields: [author], references: [id], onDelete: Cascade)
-  isPublished Boolean        @default(false)
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  treatments  PestTreatments[]
+  preventions PestPreventions[]
+  author      String?           @db.ObjectId
+  user        User?             @relation(fields: [author], references: [id], onDelete: Cascade)
+  isPublished Boolean           @default(false)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
 }
 
 model PestPictures {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   pestId    String?  @db.ObjectId
-  imageUrl  String?
+  imageUrl  String
   pest      Pest?    @relation(fields: [pestId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model PestTreatments {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  pestId    String?  @db.ObjectId
+  treatment String
+  pest      Pest?    @relation(fields: [pestId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PestPreventions {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  pestId     String?  @db.ObjectId
+  prevention String
+  pest       Pest?    @relation(fields: [pestId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

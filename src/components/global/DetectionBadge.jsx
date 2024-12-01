@@ -1,20 +1,12 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-// const bgVariants = {
-//   Aphids: "bg-blue-700",
-//   Fruitfly: "bg-green-700",
-//   ["Pumpkin-Beetle"]: "bg-purple-700",
-//   ["Serpentine-leafminer"]: "bg-red-600",
-//   Whitefly: "bg-orange-500",
-// };
-
 const bgVariants = {
   Aphids: "bg-blue-700",
   Leafminers: "bg-green-700",
   Moths: "bg-purple-700",
   ["Red-Melon-Beetle"]: "bg-red-600",
-  Whiteflies: "bg-sky-500",
+  Whiteflies: "bg-orange-500",
 };
 
 const DetectionBadge = ({ pest, value }) => {

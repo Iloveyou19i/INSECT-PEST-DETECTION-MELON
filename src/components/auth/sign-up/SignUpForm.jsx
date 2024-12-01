@@ -122,11 +122,9 @@ const SignUpForm = () => {
               name="profileImg"
               render={({ field }) => (
                 <FormItem className="flex items-center gap-4">
-                  <div>
-                    <FormLabel className="avatar-container">
-                      <UserAvatar img={field.value} size="md" />
-                    </FormLabel>
-                  </div>
+                  <FormLabel className="avatar-container">
+                    <UserAvatar img={field.value} size="md" />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="file"

@@ -12,9 +12,18 @@ const userRoutes = [
   "/detection",
   "/pests",
   "/pests/:path*",
+  "/admin",
+  "/admin/dashboard",
+  "/admin/users",
+  "/admin/users/:path*",
+  "/admin/outputs",
+  "/admin/outputs/:path*",
+  "/admin/pests",
+  "/admin/pests/:path*",
+  "/admin/logs",
 ];
 
-const adminRoutes = ["/admin/:path*"];
+const adminRoutes = [];
 
 export default auth(async (req) => {
   const { nextUrl } = req;
@@ -34,13 +43,8 @@ export default auth(async (req) => {
     return null;
   }
 
-  if (!isLoggedIn && isUserRoute) {
+  if (!isLoggedIn && (isUserRoute || isAdminRoute)) {
     return Response.redirect(new URL("/sign-in", nextUrl));
-  }
-
-  // verify isAdmin here
-  if (!isLoggedIn && isAdminRoute) {
-    return Response.redirect(new URL("/", nextUrl));
   }
 });
 
