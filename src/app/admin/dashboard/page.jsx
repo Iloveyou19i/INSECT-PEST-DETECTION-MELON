@@ -56,8 +56,8 @@ const page = async () => {
         />
         <h3 className="text-lg font-semibold">Analytics</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* <PieChartCard />
-          <BarChartCard /> */}
+          <PieChartCard chartData={pestDistributionData} />
+          <BarChartCard chartData={monthlyPestsCount} />
         </div>
         <div className="flex flex-col gap-4">
           <h3 className="text-lg font-semibold">Recent Users</h3>
