@@ -38,7 +38,7 @@ const InfiniteScrollImages = ({ data, hasNextPage }) => {
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {images.map((output) => (
-          <ImageItem key={output.id} output={output} />
+          <ImageItem key={output.id} parentLink={"/images"} output={output} />
         ))}
       </div>
       {hasMoreImages && (
