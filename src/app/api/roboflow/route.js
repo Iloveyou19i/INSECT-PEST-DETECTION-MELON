@@ -21,7 +21,7 @@ export const POST = async (req) => {
 
     const res = await axios({
       method: "POST",
-      url: "https://detect.roboflow.com/melon-cantaloupe-pest/10",
+      url: "https://detect.roboflow.com/melon-cantaloupe-pest/11",
       params: {
         api_key: "M42WszbMjuYmG5DpSsHL",
         image: imageUrl,

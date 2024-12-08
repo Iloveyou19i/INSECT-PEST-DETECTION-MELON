@@ -65,10 +65,6 @@ const UpdateUserForm = ({ user }) => {
     },
   });
 
-  const togglePassword = () => {
-    setShowPassword(!showPassword);
-  };
-
   const handleImageUpload = (e, fieldChange) => {
     e.preventDefault();
 
@@ -100,6 +96,8 @@ const UpdateUserForm = ({ user }) => {
         const imageRes = await startUpload(image);
 
         if (!imageRes) throw new Error("Error uploading image");
+
+        console.log(imageRes);
 
         values.profileImg = imageRes[0].url;
       }

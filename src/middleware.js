@@ -23,8 +23,6 @@ const userRoutes = [
   "/admin/logs",
 ];
 
-const adminRoutes = [];
-
 export default auth(async (req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
@@ -32,7 +30,6 @@ export default auth(async (req) => {
   const isApiAuthRoute = nextUrl.pathname.startsWith("/api/auth");
   const isUserRoute = userRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-  const isAdminRoute = adminRoutes.includes(nextUrl.pathname);
 
   if (isApiAuthRoute) return null;
 
