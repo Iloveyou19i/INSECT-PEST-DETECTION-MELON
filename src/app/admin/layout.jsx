@@ -3,9 +3,6 @@ import "@/app/globals.css";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/global/Navbar";
 import Sidebar from "@/components/global/Sidebar";
-import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
-import { extractRouterConfig } from "uploadthing/server";
-import { ourFileRouter } from "@/app/api/uploadthing/core";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +15,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.className} bg-slate-100`}>
-        <NextSSRPlugin extractRouterConfig={ourFileRouter} />
         <Navbar />
         <div className="pt-[8vh] md:pl-[250px]">
           <Sidebar />
