@@ -40,7 +40,7 @@ export default auth(async (req) => {
     return null;
   }
 
-  if (!isLoggedIn && (isUserRoute || isAdminRoute)) {
+  if (!isLoggedIn && isUserRoute) {
     return Response.redirect(new URL("/sign-in", nextUrl));
   }
 });

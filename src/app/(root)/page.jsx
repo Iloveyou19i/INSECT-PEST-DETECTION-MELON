@@ -5,11 +5,16 @@ import BarChartCard from "@/components/global/BarChartCard";
 import RecentImages from "@/components/global/RecentImages";
 import {
   getUserImagesCount,
+  getUserMonthlyPestCountData,
+  getUserPestDistrubtion,
   getUserPestsCount,
   getUserRecentImages,
 } from "@/lib/getActions/user/dashboard";
 
-export default function Home() {
+export default async function Home() {
+  const pestDistributionData = await getUserPestDistrubtion();
+  const monthlyPestsCountData = await getUserMonthlyPestCountData();
+
   return (
     <section className="flex flex-col gap-4">
       <h2 className="h2 pb-4">Dashboard</h2>
@@ -31,9 +36,9 @@ export default function Home() {
           parentLink="/images"
         />
         <h3 className="text-lg font-semibold">Analytics</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <PieChartCard />
-          <BarChartCard />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <PieChartCard chartData={pestDistributionData} />
+          <BarChartCard chartData={monthlyPestsCountData} />
         </div>
       </div>
     </section>

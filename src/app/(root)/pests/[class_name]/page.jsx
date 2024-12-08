@@ -32,7 +32,7 @@ const page = async ({ params }) => {
         <span className="text-slate-500 underline">{class_name}</span>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
+        <div className="sticky top-0">
           <PestImages pictures={pictures} />
         </div>
         <PestInfo
