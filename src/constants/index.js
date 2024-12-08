@@ -39,11 +39,6 @@ export const userLinks = [
     href: "/pests",
     Icon: Bug,
   },
-  {
-    label: "Profile",
-    href: "/profile",
-    Icon: CircleUserRound,
-  },
 ];
 
 export const adminLinks = [
@@ -71,10 +66,5 @@ export const adminLinks = [
     label: "Manage Logs",
     href: "/admin/logs",
     Icon: Logs,
-  },
-  {
-    label: "Profile",
-    href: "/admin/profile",
-    Icon: CircleUserRound,
   },
 ];

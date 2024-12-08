@@ -4,7 +4,9 @@ import UploadImage from "./UploadImage";
 import DetectImage from "./DetectImage";
 
 const DetectionForm = () => {
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState(
+    "https://utfs.io/f/eN9aHdoiSB2WvOdsDNkRvGdT6cemViQ2kXUNxMYEFBOzSh1r"
+  );
   const [output, setOutput] = useState({
     image: null,
     data: {},

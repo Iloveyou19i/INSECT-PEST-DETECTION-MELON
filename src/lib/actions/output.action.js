@@ -81,13 +81,20 @@ export const addOutput = async (output) => {
 
     const { image, time, detections } = output;
 
+    const formattedDetections = detections.map((detection) => {
+      return {
+        ...detection,
+        userId: user.id,
+      };
+    });
+
     const res = await prisma.output.create({
       data: {
         userId: user.id,
         image,
         time,
         detections: {
-          create: detections,
+          create: formattedDetections,
         },
       },
     });

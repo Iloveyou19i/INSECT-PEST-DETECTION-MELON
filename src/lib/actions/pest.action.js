@@ -25,18 +25,20 @@ export const addPest = async (name) => {
 
 export const updatePest = async (id, name, class_name, description) => {
   try {
+    const { user } = await auth();
+
+    if (!user) throw new Error("Unauthorized user.");
+
     await prisma.pest.update({
-      where: {
-        id,
-      },
+      where: { id },
       data: {
         name,
         class_name,
         description,
+        author: user.id,
       },
-    });
-
-    revalidatePath(`/admin/pests/${id}`);
+    }),
+      revalidatePath(`/admin/pests/${id}`);
   } catch (error) {
     console.error(error.message);
     throw new Error(error.message);

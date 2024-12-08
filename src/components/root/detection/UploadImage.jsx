@@ -50,7 +50,7 @@ const UploadImage = ({ imageUrl, setImageUrl }) => {
               }}
               onClientUploadComplete={(res) => {
                 if (res) {
-                  setImageUrl(res[0].url);
+                  setImageUrl(res[0].imageUrl);
                   setIsUploading(false);
                   setIsEditting(false);
                 }

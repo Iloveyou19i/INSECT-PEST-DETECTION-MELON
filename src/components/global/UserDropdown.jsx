@@ -33,11 +33,6 @@ const UserDropdown = ({ image }) => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href={`/profile`}>
-            <User className="w-4 h-4 mr-2" /> Profile
-          </Link>
-        </DropdownMenuItem>
         <DropdownMenuItem onClick={handleSignOut}>
           <LogOut className="w-4 h-4 mr-2" />
           Logout

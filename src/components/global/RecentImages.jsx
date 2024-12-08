@@ -16,7 +16,7 @@ const RecentImages = async ({ getRecentImages, parentLink }) => {
           View more
         </Link>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {outputs?.map((output) => (
           <ImageItem key={output.id} output={output} parentLink={parentLink} />
         ))}

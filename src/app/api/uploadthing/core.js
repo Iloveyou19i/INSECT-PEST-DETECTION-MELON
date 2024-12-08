@@ -8,7 +8,7 @@ const handleAuth = async () => {
 
   if (!user) throw new Error("User unauthorized");
 
-  return { id: user.id };
+  return { userId: user.id };
 };
 
 // FileRouter for your app, can contain multiple FileRoutes
@@ -18,8 +18,16 @@ export const ourFileRouter = {
   }).onUploadComplete(() => {}),
   pestImage: f({ image: { maxFileCount: 1, maxFileSize: "4MB" } })
     .middleware(() => handleAuth())
-    .onUploadComplete(() => {}),
+    .onUploadComplete(({ metadata, file }) => {
+      console.log({ metadata, file });
+
+      return file;
+    }),
   pestPictures: f({ image: { maxFileCount: 5, maxFileSize: "4MB" } })
     .middleware(() => handleAuth())
-    .onUploadComplete(() => {}),
+    .onUploadComplete(({ metadata, file }) => {
+      console.log({ metadata, file });
+
+      return file;
+    }),
 };

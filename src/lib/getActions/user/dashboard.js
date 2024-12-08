@@ -7,7 +7,11 @@ export const getUserPestsCount = async () => {
 
     if (!user) throw new Error("Unauthorized access");
 
-    const pestsCount = await prisma.detection.count();
+    const pestsCount = await prisma.detection.count({
+      where: {
+        userId: user?.id,
+      },
+    });
 
     return pestsCount || 0;
   } catch (error) {

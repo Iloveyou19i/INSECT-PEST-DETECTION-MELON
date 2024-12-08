@@ -4,15 +4,26 @@ import prisma from "@/lib/prisma";
 import React from "react";
 
 const page = async ({ params }) => {
-  const { id, name, class_name, description, pictures } =
-    await prisma.pest.findUnique({
-      where: {
-        class_name: params.class_name,
-      },
-      include: {
-        pictures: true,
-      },
-    });
+  const {
+    id,
+    name,
+    class_name,
+    description,
+    pictures,
+    preventions,
+    treatments,
+    faqs,
+  } = await prisma.pest.findUnique({
+    where: {
+      class_name: params.class_name,
+    },
+    include: {
+      pictures: true,
+      preventions: true,
+      treatments: true,
+      faqs: true,
+    },
+  });
 
   return (
     <section className="flex flex-col gap-4">
@@ -24,7 +35,12 @@ const page = async ({ params }) => {
         <div>
           <PestImages pictures={pictures} />
         </div>
-        <PestInfo description={description} />
+        <PestInfo
+          description={description}
+          preventions={preventions}
+          treatments={treatments}
+          faqs={faqs}
+        />
       </div>
     </section>
   );
