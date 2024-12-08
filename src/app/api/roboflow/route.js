@@ -10,15 +10,6 @@ export const POST = async (req) => {
 
     const { imageUrl } = await req.json();
 
-    // const res = await axios({
-    //   method: "POST",
-    //   url: "https://detect.roboflow.com/pests-in-cucumber-plants-jegly/2",
-    //   params: {
-    //     api_key: "M42WszbMjuYmG5DpSsHL",
-    //     image: imageUrl,
-    //   },
-    // });
-
     const res = await axios({
       method: "POST",
       url: "https://detect.roboflow.com/melon-cantaloupe-pest/11",
@@ -29,8 +20,6 @@ export const POST = async (req) => {
     });
 
     const data = await res.data;
-
-    console.log(data);
 
     const image = await detectPlants(data, imageUrl);
 
