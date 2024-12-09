@@ -55,7 +55,7 @@ const DetectImage = ({ imageUrl, output, setOutput }) => {
       </div>
       <div className="">
         <p className="text-sm">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, ut!
+          Click the "Detect" button to analyze the uploaded image and identify the pest identification results.
         </p>
       </div>
       <div className="aspect-video w-full flex flex-col items-center justify-center bg-slate-200 rounded-md overflow-hidden relative">
