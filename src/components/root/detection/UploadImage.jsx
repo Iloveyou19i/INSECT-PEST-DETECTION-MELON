@@ -37,7 +37,7 @@ const UploadImage = ({ imageUrl, setImageUrl }) => {
       </div>
       <div className="flex flex-col gap-4">
         <p className="text-sm">
-          Upload a clear image that shows pests for accurate detection.
+          Upload a clear image that shows pests for accurate detection
         </p>
         {isEditting ? (
           <div className="aspect-video w-full flex justify-center items-center">
