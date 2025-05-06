@@ -59,14 +59,6 @@ export const getUserRecentImages = async () => {
   }
 };
 
-const colors = {
-  Aphids: "var(--color-aphids)",
-  Leafminers: "var(--color-leafminers)",
-  Moths: "var(--color-moths)",
-  ["Red-Melon-Beetle"]: "var(--color-red-melon-beetle)",
-  Whiteflies: "var(--color-whiteflies)",
-};
-
 export const getUserPestDistrubtion = async () => {
   try {
     const { user } = await auth();

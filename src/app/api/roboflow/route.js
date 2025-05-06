@@ -12,7 +12,7 @@ export const POST = async (req) => {
 
     const res = await axios({
       method: "POST",
-      url: "https://detect.roboflow.com/melon-cantaloupe-pest/11",
+      url: "https://serverless.roboflow.com/melon-cantaloupe-pest/12",
       params: {
         api_key: "M42WszbMjuYmG5DpSsHL",
         image: imageUrl,

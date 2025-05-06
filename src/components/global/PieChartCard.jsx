@@ -32,8 +32,8 @@ const chartConfig = {
     label: "Leafminers",
     color: "#15803d",
   },
-  Moths: {
-    label: "Moths",
+  Cutworms: {
+    label: "Cutworms",
     color: "#7e22ce",
   },
   ["Red-Melon-Beetle"]: {
