@@ -10,8 +10,8 @@ import {
 
 export const colors = [
   "blue",
-  "green",
   "indigo",
+  "green",
   "red",
   "darkorange",
   "magenta",

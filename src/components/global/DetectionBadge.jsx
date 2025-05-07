@@ -4,7 +4,7 @@ import Link from "next/link";
 const bgVariants = {
   Aphids: "bg-blue-700",
   Leafminers: "bg-green-700",
-  Moths: "bg-purple-700",
+  Cutworms: "bg-purple-700",
   ["Red-Melon-Beetle"]: "bg-red-600",
   Whiteflies: "bg-orange-500",
 };
